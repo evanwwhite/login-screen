@@ -12,6 +12,7 @@ public class LoginScreen extends JFrame implements ActionListener{
     private JPanel mainPanel;
     private JLabel passLabel, userLabel;
     private JTextField userTxt;
+    private boolean Found;
     private JPasswordField passwordField;
 	private JButton login, exit;
 	private int counter = 0;
@@ -45,16 +46,20 @@ public class LoginScreen extends JFrame implements ActionListener{
 		 String pass = input.nextLine();
 		
 		 double amount = Double.parseDouble(input.nextLine());
+		 input.nextLine();
 		 //double amount = input.nextLine();
 		 customers.add(new BankerClass(name, pass, amount));
-		 input.nextLine();
-		 System.out.println(name);
-		 System.out.println(pass);
-		 System.out.println(amount);
+		
+		// System.out.println(name);
+		// System.out.println(pass);
+		// System.out.println(amount);
+		
 	 }
     }
 
 	LoginScreen(){
+		
+		super("Account Login");
 		
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(3,2));
@@ -86,26 +91,34 @@ public class LoginScreen extends JFrame implements ActionListener{
        }
 	  
 	  if(w.getSource() == login) { 
-		  
+		  Found = false;
 		  for(int i = 0; i < customers.size(); i++) {
-			System.out.println("in for loop");
-			System.out.println(customers.get(i).getUsername());
-			  if(userTxt.getText().equals(customers.get(i).getUsername()) && passwordField.getText().equals(customers.get(i).getPassword())){
+			  Found = false;
+			
+			  if(userTxt.getText().equals(customers.get(i).getUsername()) && passwordField.getText().equals(customers.get(i).getPassword()))
+			  {
 				  userTxt.setText(String.format("%.2f", customers.get(i).getBalance()));
 				  passwordField.setText("");
 				  
 				counter = 0;
+				Found = true;
 				  break;
-			  } else {
-				
-				userTxt.setText("");
-				passwordField.setText("");
 			  }
+			 
 		  }
-		  counter++;
+		  if(Found == false)
+		  {
+			   
+		    userTxt.setText("");
+			passwordField.setText("");
+			counter++;
+	
+		  }
+		  
 		  if(counter >= 3) {
-			userTxt.setText("*** Locked Out ***");
-		  }
+				userTxt.setText("                 *** Locked Out ***");
+			  }
+		  
 	  }
 	
    }

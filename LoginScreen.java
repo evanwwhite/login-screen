@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class LoginScreen extends JFrame implements ActionListener{
 	static private ArrayList <BankerClass> customers;
-    //private String name;
     private JPanel mainPanel;
     private JLabel passLabel, userLabel;
     private JTextField userTxt;
@@ -41,7 +40,6 @@ public class LoginScreen extends JFrame implements ActionListener{
 	
 	 while(input.hasNext())
 	 {
-		
 		 String name = input.nextLine();
 		 
 		 String pass = input.nextLine();
@@ -79,7 +77,6 @@ public class LoginScreen extends JFrame implements ActionListener{
         mainPanel.add(exit = new JButton("Exit"));
 		exit.addActionListener(this);
 
-		
     }
 
 	 public void actionPerformed(ActionEvent w) {
@@ -92,6 +89,7 @@ public class LoginScreen extends JFrame implements ActionListener{
 		  
 		  for(int i = 0; i < customers.size(); i++) {
 			System.out.println("in for loop");
+			customers.get(i).getUsername();
 			  if(userTxt.getText().equals(customers.get(i).getUsername()) && passwordField.getText().equals(customers.get(i).getPassword())){
 				  userTxt.setText(String.format("%.2f", customers.get(i).getBalance()));
 				  passwordField.setText("");

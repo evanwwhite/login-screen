@@ -14,11 +14,10 @@ public class LoginScreen extends JFrame implements ActionListener{
     private JLabel passLabel, userLabel;
     private JTextField userTxt;
     private JPasswordField passwordField;
-    private JButton login, exit;
-    
+	private JButton login, exit;
+	private int counter = 0;
   
 	public static void main(String[] args) throws IOException{
-		
 		Scanner input = new Scanner(new File("login.txt"));
 		customers = new ArrayList <BankerClass> ();
 		JFrame frame = new LoginScreen();
@@ -36,20 +35,26 @@ public class LoginScreen extends JFrame implements ActionListener{
 
 		frame.addWindowListener(w);
 		
-		
 	
 	input.nextLine();
 	input.nextLine();
 	
 	 while(input.hasNext())
 	 {
-	 	String name = input.nextLine();
-	 	String pass = input.nextLine();
-	 	double amount = Double.parseDouble(input.nextLine());
+		
+		 String name = input.nextLine();
+		 
+		 String pass = input.nextLine();
+		
+		 double amount = Double.parseDouble(input.nextLine());
+		 //double amount = input.nextLine();
+		 customers.add(new BankerClass(name, pass, amount));
+		 input.nextLine();
+		 System.out.println(name);
+		 System.out.println(pass);
+		 System.out.println(amount);
 	 }
     }
-
-
 
 	LoginScreen(){
 		
@@ -59,25 +64,17 @@ public class LoginScreen extends JFrame implements ActionListener{
 		mainPanel.setBorder(BorderFactory.createMatteBorder(20,20,20,20, Color.gray));
 		
         setContentPane(mainPanel);
-        
-        
 		
-		
-		mainPanel.add(userLabel = new JLabel("Username"));
+		mainPanel.add(userLabel = new JLabel("            Username :"));
 		
 		mainPanel.add(userTxt = new JTextField());
 		
-		mainPanel.add(passLabel = new JLabel("Password"));
-		
-
-		
-		
+		mainPanel.add(passLabel = new JLabel("            Password :"));
 
 		mainPanel.add(passwordField = new JPasswordField());
-		
-
+	
 		mainPanel.add(login = new JButton("Login"));
-		
+		login.addActionListener(this);
 		
         mainPanel.add(exit = new JButton("Exit"));
 		exit.addActionListener(this);
@@ -86,33 +83,33 @@ public class LoginScreen extends JFrame implements ActionListener{
     }
 
 	 public void actionPerformed(ActionEvent w) {
-		 int counter = 0;
+		 
 	  if(w.getSource() == exit) {
           System.exit(0);
        }
 	  
 	  if(w.getSource() == login) { 
 		  
-		  boolean found = false;
-		  
 		  for(int i = 0; i < customers.size(); i++) {
-			  if(userTxt.getText().equals(customers.get(i).getName()) &&
-					  passwordField.getText().equals(customers.get(i).getPassword()));
-			  
-			  userTxt.setText(String.format("s%.2f", customers.get(i).getBalance()));
-					  found = true;
-					  
-			if(found == false) {
-						  counter++;
-						  userTxt.setText("");
-						  passwordField.setText("");
-					  }
+			System.out.println("in for loop");
+			  if(userTxt.getText().equals(customers.get(i).getUsername()) && passwordField.getText().equals(customers.get(i).getPassword())){
+				  userTxt.setText(String.format("%.2f", customers.get(i).getBalance()));
+				  passwordField.setText("");
+				  
+				counter = 0;
+				  break;
+			  } else {
+				
+				userTxt.setText("");
+				passwordField.setText("");
+			  }
 		  }
-	
+		  counter++;
+		  if(counter >= 3) {
+			userTxt.setText("*** Locked Out ***");
+		  }
 	  }
-	  
-	  
-	  
+	
    }
  
 }

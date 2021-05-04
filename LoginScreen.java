@@ -89,7 +89,7 @@ public class LoginScreen extends JFrame implements ActionListener{
 		  
 		  for(int i = 0; i < customers.size(); i++) {
 			System.out.println("in for loop");
-			customers.get(i).getUsername();
+			System.out.println(customers.get(i).getUsername());
 			  if(userTxt.getText().equals(customers.get(i).getUsername()) && passwordField.getText().equals(customers.get(i).getPassword())){
 				  userTxt.setText(String.format("%.2f", customers.get(i).getBalance()));
 				  passwordField.setText("");
